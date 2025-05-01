@@ -144,23 +144,23 @@ public class Login extends javax.swing.JFrame {
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {
         String email = jTextField1.getText();
         String password = new String(jPasswordField1.getPassword());
-
+    
         if (email.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+    
         try (BufferedReader reader = new BufferedReader(new FileReader("users.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] credentials = line.split(",");
                 if (credentials[0].equals(email) && credentials[1].equals(password)) {
                     JOptionPane.showMessageDialog(this, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    
-                    // Open HealthDataPage after successful login
+                    // Open HealthDataPage with the user's email
                     HealthDataPage healthDataPage = new HealthDataPage();
+                    healthDataPage.setUserEmail(email); // You'll need to add this method to HealthDataPage
                     healthDataPage.setVisible(true);
-                    this.dispose(); // Close the login window
+                    this.dispose();
                     return;
                 }
             }

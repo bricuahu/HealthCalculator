@@ -1,3 +1,5 @@
+package loginandsignup;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -6,24 +8,23 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class HealthDataPage extends JFrame {
-
     private JTextField ageField;
     private JTextField heightField;
     private JTextField weightField;
     private JComboBox<String> genderCombo;
+    private String userEmail;
 
     public HealthDataPage() {
         setTitle("Health Data");
         setSize(350, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // center the window
+        setLocationRelativeTo(null);
 
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(8, 8, 8, 8);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Labels and fields
         JLabel ageLabel = new JLabel("Age:");
         ageField = new JTextField();
 
@@ -39,7 +40,7 @@ public class HealthDataPage extends JFrame {
         JButton submitButton = new JButton("Submit");
         submitButton.addActionListener(new SubmitAction());
 
-        // Adding components to the panel
+        // Add components to panel
         gbc.gridx = 0;
         gbc.gridy = 0;
         panel.add(ageLabel, gbc);
@@ -76,6 +77,10 @@ public class HealthDataPage extends JFrame {
         setVisible(true);
     }
 
+    public void setUserEmail(String email) {
+        this.userEmail = email;
+    }
+
     private class SubmitAction implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             try {
@@ -84,22 +89,20 @@ public class HealthDataPage extends JFrame {
                 double weight = Double.parseDouble(weightField.getText());
                 String gender = (String) genderCombo.getSelectedItem();
 
-                // Save to a file
                 try (FileWriter writer = new FileWriter("health_data.txt", true)) {
-                    writer.write("Age: " + age + ", Height: " + height + " cm, Weight: " + weight + " kg, Gender: " + gender + "\n");
+                    writer.write(String.format("Email: %s, Age: %d, Height: %.1f, Weight: %.1f, Gender: %s\n",
+                            userEmail, age, height, weight, gender));
                 } catch (IOException ioException) {
-                    JOptionPane.showMessageDialog(HealthDataPage.this, "Error saving data: " + ioException.getMessage());
+                    JOptionPane.showMessageDialog(HealthDataPage.this, 
+                            "Error saving data: " + ioException.getMessage());
                 }
 
-                JOptionPane.showMessageDialog(HealthDataPage.this,
-                        "Data saved:\nAge: " + age + "\nHeight: " + height + " cm\nWeight: " + weight + " kg\nGender: " + gender);
+                new FitnessGoalPage(age, height, weight, gender, userEmail);
+                dispose();
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(HealthDataPage.this, "Please enter valid numeric values.");
+                JOptionPane.showMessageDialog(HealthDataPage.this, 
+                        "Please enter valid numeric values.");
             }
         }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(HealthDataPage::new);
     }
 }
