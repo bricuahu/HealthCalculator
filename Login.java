@@ -1,8 +1,6 @@
-// Updated Login.java
 package loginandsignup;
 
 import java.io.*;
-import java.util.*;
 import javax.swing.*;
 
 public class Login extends javax.swing.JFrame {
@@ -11,9 +9,7 @@ public class Login extends javax.swing.JFrame {
         initComponents();
     }
 
-    @SuppressWarnings("unchecked")
     private void initComponents() {
-
         jPanel1 = new javax.swing.JPanel();
         Left = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -160,6 +156,11 @@ public class Login extends javax.swing.JFrame {
                 String[] credentials = line.split(",");
                 if (credentials[0].equals(email) && credentials[1].equals(password)) {
                     JOptionPane.showMessageDialog(this, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    
+                    // Open HealthDataPage after successful login
+                    HealthDataPage healthDataPage = new HealthDataPage();
+                    healthDataPage.setVisible(true);
+                    this.dispose(); // Close the login window
                     return;
                 }
             }
@@ -194,4 +195,3 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
 }
-
