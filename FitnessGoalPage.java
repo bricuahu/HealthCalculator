@@ -3,7 +3,6 @@ package loginandsignup;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -25,44 +24,84 @@ public class FitnessGoalPage extends JFrame {
         this.email = email;
         
         setTitle("Fitness Goal");
-        setSize(400, 250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        setPreferredSize(new Dimension(1000, 500));
 
-        JPanel panel = new JPanel(new GridBagLayout());
+        JPanel mainPanel = new JPanel();
+        mainPanel.setBackground(Color.WHITE);
+        mainPanel.setLayout(null);
+
+        // Left Panel (Blue background with title)
+        JPanel leftPanel = new JPanel();
+        leftPanel.setBackground(new Color(20, 195, 60));
+        leftPanel.setBounds(0, 0, 400, 500);
+        leftPanel.setLayout(new GridBagLayout());
+
+        JLabel titleLabel = new JLabel("Fitness Goal");
+        titleLabel.setFont(new Font("Times New Roman", Font.BOLD, 48));
+        titleLabel.setForeground(Color.WHITE);
+        leftPanel.add(titleLabel);
+
+        // Right Panel (Form)
+        JPanel rightPanel = new JPanel();
+        rightPanel.setBackground(Color.WHITE);
+        rightPanel.setBounds(400, 0, 400, 500);
+        rightPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(15, 15, 15, 15);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel titleLabel = new JLabel("Select Your Fitness Goal");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        
-        JLabel goalLabel = new JLabel("Goal:");
-        goalCombo = new JComboBox<>(new String[]{"Lose Weight", "Maintain Weight", "Gain Weight"});
-        
-        JButton calculateButton = new JButton("Calculate Nutrition Plan");
-        calculateButton.addActionListener(this::calculateNutrition);
-
+        JLabel formTitle = new JLabel("Select Your Goal");
+        formTitle.setFont(new Font("Segoe UI", Font.BOLD, 36));
+        formTitle.setForeground(new Color(20, 195, 60));
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
-        panel.add(titleLabel, gbc);
+        rightPanel.add(formTitle, gbc);
+
+        JLabel goalLabel = new JLabel("Fitness Goal:");
+        goalCombo = new JComboBox<>(new String[]{"Lose Weight", "Maintain Weight", "Gain Weight"});
+        goalCombo.setPreferredSize(new Dimension(200, 30));
         
+        JButton calculateButton = new JButton("Calculate Nutrition Plan");
+        calculateButton.setBackground(new Color(20, 195, 60));
+        calculateButton.setForeground(Color.BLACK);
+        calculateButton.setPreferredSize(new Dimension(200, 35));
+        calculateButton.addActionListener(this::calculateNutrition);
+
+        // Add components to right panel
         gbc.gridwidth = 1;
         gbc.gridy = 1;
         gbc.gridx = 0;
-        panel.add(goalLabel, gbc);
+        rightPanel.add(goalLabel, gbc);
         
         gbc.gridx = 1;
-        panel.add(goalCombo, gbc);
+        rightPanel.add(goalCombo, gbc);
         
         gbc.gridy = 2;
         gbc.gridx = 0;
         gbc.gridwidth = 2;
-        panel.add(calculateButton, gbc);
+        rightPanel.add(calculateButton, gbc);
 
-        add(panel);
+        // Add profile summary
+        JLabel profileLabel = new JLabel(String.format(
+            "<html><div style='text-align:center;'><h3>Your Profile</h3>" +
+            "<p>Age: %d</p>" +
+            "<p>Height: %.1f cm</p>" +
+            "<p>Weight: %.1f kg</p>" +
+            "<p>Gender: %s</p></div></html>",
+            age, height, weight, gender
+        ));
+        gbc.gridy = 3;
+        rightPanel.add(profileLabel, gbc);
+
+        mainPanel.add(leftPanel);
+        mainPanel.add(rightPanel);
+
+        add(mainPanel);
+        pack();
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
@@ -79,8 +118,8 @@ public class FitnessGoalPage extends JFrame {
 
     private double calculateBMR() {
         return gender.equalsIgnoreCase("Male") 
-            ? 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age) //Male calculations
-            : 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age); //Female calculations
+            ? 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age)
+            : 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
     }
 
     private double adjustCaloriesForGoal(double bmr, String goal) {
