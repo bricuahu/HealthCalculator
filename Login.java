@@ -157,6 +157,10 @@ public class Login extends javax.swing.JFrame {
                 String[] credentials = line.split(",");
                 if (credentials[0].equals(email) && credentials[1].equals(password)) {
                     JOptionPane.showMessageDialog(this, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    
+                    HealthDataPage healthDataPage = new HealthDataPage();
+                    healthDataPage.setVisible(true);
+                    this.dispose(); 
                     return;
                 }
             }
