@@ -33,25 +33,25 @@ public class Login extends javax.swing.JFrame {
 
         Left.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36));
-        jLabel1.setForeground(new java.awt.Color(0, 204, 204));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36));
+        jLabel1.setForeground(new java.awt.Color(20, 195,60));
         jLabel1.setText("Login");
 
         jLabel2.setText("Email:");
 
         jLabel3.setText("Password:");
 
-        jButton1.setBackground(new java.awt.Color(0, 204, 204));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Login");
+        jButton1.setBackground(new java.awt.Color(20, 195, 60));
+        jButton1.setForeground(new java.awt.Color(0, 0, 0));
+        jButton1.setText("Log in");
         jButton1.addActionListener(evt -> loginActionPerformed(evt));
 
         jLabel4.setText("Don't Have An Account?");
 
-        jButton2.setBackground(new java.awt.Color(0, 204, 102));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setBackground(new java.awt.Color(20, 195, 60));
+        jButton2.setForeground(new java.awt.Color(0, 0, 0));
         jButton2.setText("Signup");
-        jButton2.addActionListener(evt -> openSignup());
+        jButton2.addActionListener(_ -> openSignup());
 
         javax.swing.GroupLayout LeftLayout = new javax.swing.GroupLayout(Left);
         Left.setLayout(LeftLayout);
@@ -93,15 +93,15 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(jButton2))
                     .addContainerGap(50, Short.MAX_VALUE))
         );
-
+//LEFT PANEL "HEALTH CALCULATOR"
         jPanel1.add(Left);
-        Left.setBounds(400, 0, 400, 500);
+        Left.setBounds(0, 100, 400, 400);
 
-        Right.setBackground(new java.awt.Color(0, 204, 204));
+        Right.setBackground(new java.awt.Color(20, 195, 60));
 
-        jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 48));
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 48));
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Health Calc.");
+        jLabel5.setText("Health Calcalculator");
 
         javax.swing.GroupLayout RightLayout = new javax.swing.GroupLayout(Right);
         Right.setLayout(RightLayout);
@@ -112,16 +112,17 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addContainerGap(50, Short.MAX_VALUE))
         );
+        //MAKES HEALTH CALCULATOR GO CENTER ON TOP
         RightLayout.setVerticalGroup(
             RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(RightLayout.createSequentialGroup()
-                    .addGap(220, 220, 220)
+                    .addGap(30, 30, 30)
                     .addComponent(jLabel5)
-                    .addContainerGap(220, Short.MAX_VALUE))
+                    .addContainerGap(30, Short.MAX_VALUE))
         );
-
+//RIGHT PANEL LOGIN INFORMATION
         jPanel1.add(Right);
-        Right.setBounds(0, 0, 400, 500);
+        Right.setBounds(0, 0, 800, 100);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -144,23 +145,18 @@ public class Login extends javax.swing.JFrame {
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {
         String email = jTextField1.getText();
         String password = new String(jPasswordField1.getPassword());
-    
+
         if (email.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-    
+
         try (BufferedReader reader = new BufferedReader(new FileReader("users.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] credentials = line.split(",");
                 if (credentials[0].equals(email) && credentials[1].equals(password)) {
                     JOptionPane.showMessageDialog(this, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    // Open HealthDataPage with the user's email
-                    HealthDataPage healthDataPage = new HealthDataPage();
-                    healthDataPage.setUserEmail(email); // You'll need to add this method to HealthDataPage
-                    healthDataPage.setVisible(true);
-                    this.dispose();
                     return;
                 }
             }
