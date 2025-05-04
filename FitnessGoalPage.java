@@ -1,12 +1,12 @@
 package loginandsignup;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.*;
 
 public class FitnessGoalPage extends JFrame {
     private JComboBox<String> goalCombo;
@@ -113,6 +113,7 @@ public class FitnessGoalPage extends JFrame {
         
         saveNutritionPlan(goal, dailyCalories, macros);
         showResults(goal, dailyCalories, macros);
+        new HealthProgressTracker(age, height, weight, gender, email, goal);
         dispose();
     }
 

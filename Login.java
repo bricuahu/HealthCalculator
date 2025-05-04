@@ -159,6 +159,7 @@ public class Login extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     
                     HealthDataPage healthDataPage = new HealthDataPage();
+                    healthDataPage.setUserEmail(email);
                     healthDataPage.setVisible(true);
                     this.dispose(); 
                     return;
