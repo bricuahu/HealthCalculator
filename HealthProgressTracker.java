@@ -188,7 +188,7 @@ rightPanel.add(scrollPane, gbc);
         return history;
     }
 
-    // Show ASCII graph: Day X (weight): ===>
+    // Show  graph: Day X (weight): ===>
     private String generateGraph(List<Double> history) {
         StringBuilder graph = new StringBuilder();
         graph.append("Progress for: ").append(userEmail).append("\n");
